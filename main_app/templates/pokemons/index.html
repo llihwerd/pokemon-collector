@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block head %}
+<link 
+  rel="stylesheet"
+  type="text/css"
+  href="{% static 'css/pokemons/pokemon-index.css' %}"
+/>
+{% endblock %}
+
+{% block content %}
+
+<section class="page-header">
+  <h1>Pokemon List</h1>
+  <img src="{% static 'images/bulbasaur.jpeg' %}" alt="The cabage frog" />
+  <img src="{% static 'images/charmander.png' %}" alt="The warm lizard" />
+  <img src="{% static 'images/squirtle.jpeg' %}" alt="The fiesty turle" />
+</section>
+
+<section class="card-container">
+  {% for pokemon in pokemons %}
+    <div class="card">
+      <div class="card-content">
+        <div class="card-img-container">
+          <img 
+            src="{% static 'images/pokeball_large.png' %}" 
+            alt="A pokeball"
+          >
+        </div>
+        <h2 class="card-title">{{ pokemon.name }}</h2>
+          <p>A {{ pokemon.type }} pokemon with {{ pokemon.hp }} hit points.</p>
+        <p><small>{{ pokemon.description }}</small></p>
+      </div>
+    </div>
+  {% endfor %}
+</section>
+
+{% endblock %}

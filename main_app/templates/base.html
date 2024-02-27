@@ -1,3 +1,5 @@
+{% load static %}
+<!DOCTYPE html>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,8 +9,9 @@
   <link
     rel="shortcut icon"
     type="image/png"
-    href=""
+    href="{% static 'images/pokeball_favicon.png' %}"
   >
+  <link rel="stylesheet" type="text/css" href="{% static 'css/base.css' %}">
   <title>Pokemon Collector</title>
   {% block head %}
   {% endblock %}
@@ -18,13 +21,14 @@
     <div class="header-logo-container">
       <a href="/">
         <img 
-          src=""
+          src="{% static 'images/header-logo.jpeg' %}"
           alt="The Pokemon Collector Logo"
         >
       </a>
     </div>
     <nav>
       <ul>
+        <li><a href="/pokemons">All Pokemons</a></li>
         <li><a href="/about">About</a></li>
       </ul>
     </nav>
