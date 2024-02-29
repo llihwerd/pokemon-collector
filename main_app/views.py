@@ -15,3 +15,7 @@ def about(request):
 def pokemon_index(request):
   pokemons = Pokemon.objects.all()
   return render(request, 'pokemons/index.html', { 'pokemons': pokemons })
+
+def pokemon_detail(request, pokemon_id):
+  pokemon = Pokemon.objects.get(id=pokemon_id)
+  return render(request, 'pokemons/detail.html', { 'pokemon': pokemon })

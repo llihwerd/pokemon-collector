@@ -21,17 +21,19 @@
 <section class="card-container">
   {% for pokemon in pokemons %}
     <div class="card">
-      <div class="card-content">
-        <div class="card-img-container">
-          <img 
-            src="{% static 'images/pokeball_large.png' %}" 
-            alt="A pokeball"
-          >
+      <a href="/pokemons/{{ pokemon.id }}">
+        <div class="card-content">
+          <div class="card-img-container">
+            <img 
+              src="{% static 'images/pokeball_large.png' %}" 
+              alt="A pokeball"
+            >
+          </div>
+          <h2 class="card-title">{{ pokemon.name }}</h2>
+            <p>A {{ pokemon.type }} pokemon with {{ pokemon.hp }} hit points.</p>
+          <p><small>{{ pokemon.description }}</small></p>
         </div>
-        <h2 class="card-title">{{ pokemon.name }}</h2>
-          <p>A {{ pokemon.type }} pokemon with {{ pokemon.hp }} hit points.</p>
-        <p><small>{{ pokemon.description }}</small></p>
-      </div>
+      </a>
     </div>
   {% endfor %}
 </section>
