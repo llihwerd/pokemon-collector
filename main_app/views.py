@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .models import Pokemon
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from .models import Pokemon
@@ -36,3 +36,11 @@ class PokemonUpdate(UpdateView):
 class PokemonDelete(DeleteView):
   model = Pokemon
   success_url = '/pokemons/'
+
+def add_feeding(request, pokemon_id):
+  form = FeedingForm(request.POST)
+  if form.is_valid():
+    new_feeding = form.save(commit=False)
+    new_feeding.pokemon_id = pokemon_id
+    new_feeding.save()
+  return redirect('pokemon-detail', pokemon_id=pokemon_id)
