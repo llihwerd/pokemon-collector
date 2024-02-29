@@ -56,6 +56,11 @@
 			autocomplete="off"
     >
       {% csrf_token %}
+      {% if pokemon.fed_for_today %}
+        <p class="fed">{{pokemon.name}} has been fed all their meals for today!</p>
+      {% else %}
+        <p class="unfed">{{pokemon.name}} might be hungry!</p>
+      {% endif %}
       {{ feeding_form.as_p }}
       <button type="submit" class="btn submit">Add Feeding</button>
     </form>
