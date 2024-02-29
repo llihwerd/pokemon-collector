@@ -2,6 +2,7 @@ from django.shortcuts import render
 from .models import Pokemon
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from .models import Pokemon
+from .forms import FeedingForm
 
 
 
@@ -17,7 +18,10 @@ def pokemon_index(request):
 
 def pokemon_detail(request, pokemon_id):
   pokemon = Pokemon.objects.get(id=pokemon_id)
-  return render(request, 'pokemons/detail.html', { 'pokemon': pokemon })
+  feeding_form = FeedingForm()
+  return render(request, 'pokemons/detail.html', {
+    'pokemon': pokemon, 'feeding_form': feeding_form
+  })
 
 class PokemonCreate(CreateView):
   model = Pokemon
