@@ -7,11 +7,15 @@
 
 {% block content %}
 
+{% if pokemon %}
+    <h1>Edit {{ pokemon.name }}</h1>
+  {% else %}
+    <h1>Add a Pokemon</h1>
+  {% endif %}
 <div class="page-header">
   <h1>Add a Pokemon</h1>
   <img src="{% static 'images/pokeball_large.png' %}" alt="A pokeball with a red top and a white bottom"/>
 </div>
-
 <form action="" method="post" class="form-container">
   {% csrf_token %}
   <table>

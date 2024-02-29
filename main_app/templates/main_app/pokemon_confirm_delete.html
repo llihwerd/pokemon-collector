@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="page-header">
+  <h1>Delete Pokemon?</h1>
+</div>
+<h2>Are you sure you want to set {{pokemon.name}} free?</h2>
+
+<form action="" method="post" class="form">
+  {% csrf_token %}
+  <a 
+    href="{% url 'pokemon-detail' pokemon.id %}" 
+    class="btn secondary"
+  >
+    Cancel
+  </a>
+  <button type="submit" class="btn danger">Release {{pokemon.name}}!</button>
+</form>
+
+{% endblock %}

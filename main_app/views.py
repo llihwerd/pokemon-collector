@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from .models import Pokemon
-from django.views.generic.edit import CreateView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from .models import Pokemon
 
 
@@ -22,4 +22,13 @@ def pokemon_detail(request, pokemon_id):
 class PokemonCreate(CreateView):
   model = Pokemon
   fields = '__all__'
+  success_url = '/pokemons/'
+
+class PokemonUpdate(UpdateView):
+  model = Pokemon
+  # Let's disallow the renaming of a cat by excluding the name field!
+  fields = ['description', 'hp']
+
+class PokemonDelete(DeleteView):
+  model = Pokemon
   success_url = '/pokemons/'
