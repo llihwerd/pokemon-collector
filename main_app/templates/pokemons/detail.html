@@ -3,10 +3,20 @@
 
 {% block head %}
 <link 
+  href="https://cdn.jsdelivr.net/npm/mc-datepicker/dist/mc-calendar.min.css" 
+  rel="stylesheet" 
+/>
+<link rel="stylesheet" href="{% static 'css/mcdp.css' %}">
+<script 
+  src="https://cdn.jsdelivr.net/npm/mc-datepicker/dist/mc-calendar.min.js"
+>
+</script>
+<link 
   rel="stylesheet" 
   type="text/css" 
   href="{% static 'css/pokemons/pokemon-detail.css' %}"
 />
+<script defer src="{% static 'js/pokemon-detail.js' %}"></script>
 {% endblock %}
 
 {% block content %}
@@ -66,7 +76,5 @@
   </table>
 </section>
 </div>
-
-{% endblock %}
 
 {% endblock %}
