@@ -1,8 +1,9 @@
 from django.shortcuts import render, redirect
 from .models import Pokemon
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
-from .models import Pokemon
+from .models import Pokemon, Toy
 from .forms import FeedingForm
+from django.views.generic import ListView, DetailView
 
 
 
@@ -44,3 +45,21 @@ def add_feeding(request, pokemon_id):
     new_feeding.pokemon_id = pokemon_id
     new_feeding.save()
   return redirect('pokemon-detail', pokemon_id=pokemon_id)
+
+class ToyCreate(CreateView):
+  model = Toy
+  fields = '__all__'
+
+class ToyList(ListView):
+  model = Toy
+
+class ToyDetail(DetailView):
+  model = Toy
+
+class ToyUpdate(UpdateView):
+  model = Toy
+  fields = ['name', 'color']
+
+class ToyDelete(DeleteView):
+  model = Toy
+  success_url = '/toys/'
