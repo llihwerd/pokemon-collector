@@ -29,4 +29,31 @@
   </div>
 </section>
 
+<div class="feedings-toy-container">
+<section class="feedings">
+  <div class="subsection-title">
+    <h2>Feedings</h2>
+    <img 
+      src="{% static 'images/berries.jpeg' %}" 
+      alt="10 different pokemon berries"
+    />
+  </div>
+  <table>
+    <thead>
+      <tr><th>Date</th><th>Meal</th></tr>
+    </thead>
+    <tbody>
+      {% for feeding in pokemon.feeding_set.all %}
+        <tr>
+          <td>{{feeding.date}}</td>
+          <td>{{feeding.get_meal_display}}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</section>
+</div>
+
+{% endblock %}
+
 {% endblock %}

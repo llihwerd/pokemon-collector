@@ -20,7 +20,7 @@ class Pokemon(models.Model):
     return reverse('pokemon-detail', kwargs={'pokemon_id': self.id})
   
 class Feeding(models.Model):
-  date = models.DateField()
+  date = models.DateField('Feeding date')
   meal = models.CharField(
     max_length=1,
     choices=MEALS,
