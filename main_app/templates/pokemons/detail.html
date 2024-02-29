@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block head %}
+<link 
+  rel="stylesheet" 
+  type="text/css" 
+  href="{% static 'css/pokemons/pokemon-detail.css' %}"
+/>
+{% endblock %}
+
+{% block content %}
+
+<section class="pokemon-container">
+  <div class="pokemon-img">
+    <img 
+      src="{% static 'images/pokeball_large.png' %}" 
+      alt="A pokeball with a red top and a white bottom"
+    >
+  </div>
+  <div class="pokemon-details">
+    <h1>{{ pokemon.name }}</h1>
+      <h2>A {{ pokemon.type }} type pokemon with {{ pokemon.hp }} starting Hit Points!</h2>
+    <p>{{ pokemon.description }}</p>
+  </div>
+</section>
+
+{% endblock %}
