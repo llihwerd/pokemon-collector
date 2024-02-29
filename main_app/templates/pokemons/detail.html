@@ -22,6 +22,10 @@
     <h1>{{ pokemon.name }}</h1>
       <h2>A {{ pokemon.type }} type pokemon with {{ pokemon.hp }} starting Hit Points!</h2>
     <p>{{ pokemon.description }}</p>
+    <div class="pokemon-actions">
+      <a href="{% url 'pokemon-update' pokemon.id %}" class="btn warn">Edit</a>
+      <a href="{% url 'pokemon-delete' pokemon.id %}" class="btn danger">Delete</a>
+    </div>
   </div>
 </section>
 
