@@ -19,14 +19,15 @@ def pokemon_index(request):
 
 def pokemon_detail(request, pokemon_id):
   pokemon = Pokemon.objects.get(id=pokemon_id)
+  toys_pokemon_doesnt_have = Toy.objects.exclude(id__in = pokemon.toys.all().values_list('id'))
   feeding_form = FeedingForm()
   return render(request, 'pokemons/detail.html', {
-    'pokemon': pokemon, 'feeding_form': feeding_form
+    'pokemon': pokemon, 'feeding_form': feeding_form, 'toys': toys_pokemon_doesnt_have
   })
 
 class PokemonCreate(CreateView):
   model = Pokemon
-  fields = '__all__'
+  fields = ['name', 'type', 'description', 'hp']
   success_url = '/pokemons/'
 
 class PokemonUpdate(UpdateView):
@@ -63,3 +64,7 @@ class ToyUpdate(UpdateView):
 class ToyDelete(DeleteView):
   model = Toy
   success_url = '/toys/'
+
+def assoc_toy(request, pokemon_id, toy_id):
+  Pokemon.objects.get(id=pokemon_id).toys.add(toy_id)
+  return redirect('pokemon-detail', pokemon_id=pokemon_id)
