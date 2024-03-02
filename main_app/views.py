@@ -5,6 +5,10 @@ from .models import Pokemon, Toy
 from .forms import FeedingForm
 from django.views.generic import ListView, DetailView
 from django.contrib.auth.views import LoginView
+from django.contrib.auth import login
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 
 
@@ -14,10 +18,12 @@ class Home(LoginView):
 def about(request):
   return render(request, 'about.html')
 
+@login_required
 def pokemon_index(request):
-  pokemons = Pokemon.objects.all()
+  pokemons = Pokemon.objects.filter(user=request.user)
   return render(request, 'pokemons/index.html', { 'pokemons': pokemons })
 
+@login_required
 def pokemon_detail(request, pokemon_id):
   pokemon = Pokemon.objects.get(id=pokemon_id)
   toys_pokemon_doesnt_have = Toy.objects.exclude(id__in = pokemon.toys.all().values_list('id'))
@@ -26,20 +32,23 @@ def pokemon_detail(request, pokemon_id):
     'pokemon': pokemon, 'feeding_form': feeding_form, 'toys': toys_pokemon_doesnt_have
   })
 
-class PokemonCreate(CreateView):
+class PokemonCreate(LoginRequiredMixin, CreateView):
   model = Pokemon
   fields = ['name', 'type', 'description', 'hp']
-  success_url = '/pokemons/'
+  def form_valid(self, form):
+    form.instance.user = self.request.user
+    return super().form_valid(form)
 
-class PokemonUpdate(UpdateView):
+class PokemonUpdate(LoginRequiredMixin, UpdateView):
   model = Pokemon
   # Let's disallow the renaming of a cat by excluding the name field!
   fields = ['description', 'hp']
 
-class PokemonDelete(DeleteView):
+class PokemonDelete(LoginRequiredMixin, DeleteView):
   model = Pokemon
   success_url = '/pokemons/'
 
+@login_required
 def add_feeding(request, pokemon_id):
   form = FeedingForm(request.POST)
   if form.is_valid():
@@ -48,24 +57,40 @@ def add_feeding(request, pokemon_id):
     new_feeding.save()
   return redirect('pokemon-detail', pokemon_id=pokemon_id)
 
-class ToyCreate(CreateView):
+class ToyCreate(LoginRequiredMixin, CreateView):
   model = Toy
   fields = '__all__'
 
-class ToyList(ListView):
+class ToyList(LoginRequiredMixin, ListView):
   model = Toy
 
-class ToyDetail(DetailView):
+class ToyDetail(LoginRequiredMixin, DetailView):
   model = Toy
 
-class ToyUpdate(UpdateView):
+class ToyUpdate(LoginRequiredMixin, UpdateView):
   model = Toy
   fields = ['name', 'color']
 
-class ToyDelete(DeleteView):
+class ToyDelete(LoginRequiredMixin, DeleteView):
   model = Toy
   success_url = '/toys/'
 
+@login_required
 def assoc_toy(request, pokemon_id, toy_id):
   Pokemon.objects.get(id=pokemon_id).toys.add(toy_id)
   return redirect('pokemon-detail', pokemon_id=pokemon_id)
+
+
+def signup(request):
+  error_message = ''
+  if request.method == 'POST':
+    form = UserCreationForm(request.POST)
+    if form.is_valid():
+      user = form.save()
+      login(request, user)
+      return redirect('pokemon-index')
+    else:
+      error_message = 'Invalid sign up - try again'
+  form = UserCreationForm()
+  context = {'form': form, 'error_message': error_message}
+  return render(request, 'signup.html', context)
